@@ -1,0 +1,46 @@
+mutation CreateDemoData @transaction @auth(level: USER, insecureReason: "This operation is safe to expose to all logged in users.") {
+  user1: user_insert(data: {
+    id: "550e8400-e29b-41d4-a716-446655440000",
+    username: "testuser1",
+    email: "test1@example.com",
+    passwordHash: "hashed_password_1",
+    createdAt: "2023-01-01T10:00:00Z"
+  })
+  user2: user_insert(data: {
+    id: "550e8400-e29b-41d4-a716-446655440001",
+    username: "testuser2",
+    email: "test2@example.com",
+    passwordHash: "hashed_password_2",
+    createdAt: "2023-01-02T11:00:00Z"
+  })
+  module1: module_insert(data: {
+    id: "650e8400-e29b-41d4-a716-446655440000",
+    name: "Beginner English Grammar",
+    description: "Learn the basics of English grammar.",
+    level: "Beginner",
+    createdAt: "2023-01-05T09:00:00Z"
+  })
+  game1: game_insert(data: {
+    id: "750e8400-e29b-41d4-a716-446655440000",
+    name: "Grammar Quiz 1",
+    description: "A quiz on basic grammar rules.",
+    difficulty: "Easy",
+    type: "Quiz",
+    createdAt: "2023-01-10T14:30:00Z"
+  })
+  question1: question_insert(data: {
+    gameId: "750e8400-e29b-41d4-a716-446655440000",
+    text: "Which of these is a verb?",
+    type: "MultipleChoice",
+    options: ["Car", "Run", "Blue", "Quickly"],
+    correctAnswer: "Run"
+  })
+  progress1: userModuleProgress_insert(data: {
+    userId: "550e8400-e29b-41d4-a716-446655440000",
+    moduleId: "650e8400-e29b-41d4-a716-446655440000",
+    completedGamesCount: 5,
+    totalGamesCount: 10,
+    completionPercentage: 0.5,
+    lastAccessedAt: "2023-01-15T12:00:00Z"
+  })
+}

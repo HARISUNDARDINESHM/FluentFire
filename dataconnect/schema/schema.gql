@@ -1,0 +1,52 @@
+type User @table {
+  username: String!
+  email: String!
+  passwordHash: String!
+  createdAt: Timestamp!
+  displayName: String
+  avatarUrl: String
+  lastLogin: Timestamp
+}
+
+type Game @table {
+  name: String!
+  type: String!
+  difficulty: String!
+  createdAt: Timestamp!
+  description: String
+  imageUrl: String
+}
+
+type Attempt @table {
+  user: User!
+  game: Game!
+  score: Int!
+  createdAt: Timestamp!
+  completedAt: Timestamp!
+  durationSeconds: Int
+}
+
+type Module @table {
+  name: String!
+  createdAt: Timestamp!
+  description: String
+  level: String
+}
+
+type Question @table {
+  game: Game!
+  text: String!
+  type: String!
+  correctAnswer: String!
+  options: [String]
+  explanation: String
+}
+
+type UserModuleProgress @table {
+  user: User!
+  module: Module!
+  completedGamesCount: Int!
+  totalGamesCount: Int!
+  lastAccessedAt: Timestamp!
+  completionPercentage: Float
+}

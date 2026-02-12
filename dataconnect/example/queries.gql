@@ -1,0 +1,46 @@
+query ListAllModules @auth(level: PUBLIC, insecureReason: "This operation is safe to expose to the public as it lists general information about modules.") {
+  modules {
+    id
+    name
+    description
+    level
+  }
+}
+
+query GetMyModuleProgress($moduleId: UUID!) @auth(level: USER) {
+  userModuleProgresses(where: {
+    userId: {eq_expr: "auth.uid"},
+    moduleId: {eq: $moduleId}
+  }) {
+    id
+    module {
+      name
+    }
+    completedGamesCount
+    totalGamesCount
+    completionPercentage
+    lastAccessedAt
+  }
+}
+
+mutation RecordGameAttempt($gameId: UUID!, $score: Int!, $durationSeconds: Int!, $completedAt: Timestamp!) @auth(level: USER) {
+  attempt_insert(data: {
+    gameId: $gameId,
+    userId_expr: "auth.uid",
+    score: $score,
+    durationSeconds: $durationSeconds,
+    completedAt: $completedAt
+  })
+}
+
+mutation UpdateMyModuleProgress($progressId: UUID!, $completedGamesCount: Int!, $completionPercentage: Float!, $lastAccessedAt: Timestamp!) @auth(level: USER) {
+  userModuleProgress_update(
+    key: {id: $progressId},
+    data: {
+      completedGamesCount: $completedGamesCount,
+      completionPercentage: $completionPercentage,
+      lastAccessedAt: $lastAccessedAt,
+      userId_expr: "auth.uid"
+    }
+  )
+}
