@@ -70,7 +70,32 @@ const Quiz = () => {
         };
 
         fetchQuestions();
-    }, [quizType, currentUser]); // Added currentUser dependency
+    }, [quizType, currentUser]);
+
+    const handleOptionClick = (option) => {
+        if (showFeedback) return;
+        setSelectedOption(option);
+        setShowFeedback(true);
+
+        if (option === questions[currentQIndex].correctAnswer) {
+            setScore(score + 1);
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+    };
+
+    const handleNext = () => {
+        setSelectedOption(null);
+        setShowFeedback(false);
+        if (currentQIndex < questions.length - 1) {
+            setCurrentQIndex(currentQIndex + 1);
+        } else {
+            finishQuiz();
+        }
+    };
 
     // ... (rest of code)
 
