@@ -33,6 +33,3 @@ ui-debug.log
 .env
 .env.local
 .env.*.local
-
-# Configuration
-src/firebase/firebaseConfig.js
