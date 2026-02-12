@@ -3,7 +3,8 @@ import {
     signInWithEmailAndPassword,
     createUserWithEmailAndPassword,
     signOut,
-    onAuthStateChanged
+    onAuthStateChanged,
+    updateProfile
 } from "firebase/auth";
 import { doc, getDoc, setDoc, updateDoc, serverTimestamp, onSnapshot } from "firebase/firestore";
 import { auth, db } from "../firebase/firebaseConfig";
@@ -20,6 +21,9 @@ export const AuthProvider = ({ children }) => {
     const register = async (email, password, name) => {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         const user = res.user;
+
+        // Update profile in Firebase Auth
+        await updateProfile(user, { displayName: name });
 
         // Create user document in Firestore
         await setDoc(doc(db, "users", user.uid), {
